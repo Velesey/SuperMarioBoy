@@ -11,21 +11,22 @@ COLOR =  "#888888"
 JUMP_POWER = 10
 GRAVITY = 0.35 # Сила, которая будет тянуть нас вниз
 ANIMATION_DELAY = 0.1 # скорость смены кадров
-ANIMATION_RIGHT = [('mario/r1.png'),
-            ('mario/r2.png'),
-            ('mario/r3.png'),
-            ('mario/r4.png'),
-            ('mario/r5.png')]
-ANIMATION_LEFT = [('mario/l1.png'),
-            ('mario/l2.png'),
-            ('mario/l3.png'),
-            ('mario/l4.png'),
-            ('mario/l5.png')]
-ANIMATION_JUMP_LEFT = [('mario/jl.png', 0.1)]
-ANIMATION_JUMP_RIGHT = [('mario/jr.png', 0.1)]
-ANIMATION_JUMP = [('mario/j.png', 0.1)]
-ANIMATION_STAY = [('mario/0.png', 0.1)]
+ICON_DIR = os.path.dirname(__file__) #  Полный путь к каталогу с файлами
 
+ANIMATION_RIGHT = [('%s/mario/r1.png' % ICON_DIR),
+            ('%s/mario/r2.png' % ICON_DIR),
+            ('%s/mario/r3.png' % ICON_DIR),
+            ('%s/mario/r4.png' % ICON_DIR),
+            ('%s/mario/r5.png' % ICON_DIR)]
+ANIMATION_LEFT = [('%s/mario/l1.png' % ICON_DIR),
+            ('%s/mario/l2.png' % ICON_DIR),
+            ('%s/mario/l3.png' % ICON_DIR),
+            ('%s/mario/l4.png' % ICON_DIR),
+            ('%s/mario/l5.png' % ICON_DIR)]
+ANIMATION_JUMP_LEFT = [('%s/mario/jl.png' % ICON_DIR, 0.1)]
+ANIMATION_JUMP_RIGHT = [('%s/mario/jr.png' % ICON_DIR, 0.1)]
+ANIMATION_JUMP = [('%s/mario/j.png' % ICON_DIR, 0.1)]
+ANIMATION_STAY = [('%s/mario/0.png' % ICON_DIR, 0.1)]
 
 class Player(sprite.Sprite):
     def __init__(self, x, y):
