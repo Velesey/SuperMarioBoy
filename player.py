@@ -3,6 +3,7 @@
 
 from pygame import *
 import pyganim
+import os
 
 MOVE_SPEED = 7
 WIDTH = 22
