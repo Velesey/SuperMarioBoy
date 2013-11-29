@@ -7,13 +7,14 @@ import os
 import blocks
 import monsters
 
-MOVE_SPEED = 7
-MOVE_EXTRA_SPEED = 2.5 # ускорение
+STEP_SPEED = 1
+MOVE_SPEED = 4
+MOVE_EXTRA_SPEED = 3 # ускорение
 WIDTH = 22
 HEIGHT = 32
 COLOR =  "#888888"
-JUMP_POWER = 10
-JUMP_EXTRA_POWER = 1  # дополнительная сила прыжка
+JUMP_POWER = 8
+JUMP_EXTRA_POWER = 2  # дополнительная сила прыжка
 GRAVITY = 0.35 # Сила, которая будет тянуть нас вниз
 ANIMATION_DELAY = 0.1 # скорость смены кадров
 ANIMATION_SUPER_SPEED_DELAY = 0.05 # скорость смены кадров при ускорении
@@ -42,6 +43,7 @@ class Player(sprite.Sprite):
         self.startY = y
         self.yvel = 0 # скорость вертикального перемещения
         self.onGround = False # На земле ли я?
+        self.isFly = False
         self.image = Surface((WIDTH,HEIGHT))
         self.image.fill(Color(COLOR))
         self.rect = Rect(x, y, WIDTH, HEIGHT) # прямоугольный объект
@@ -88,53 +90,71 @@ class Player(sprite.Sprite):
             if self.onGround: # прыгаем, только когда можем оттолкнуться от земли
                 self.yvel = -JUMP_POWER
                 if running and (left or right): # если есть ускорение и мы движемся
-                       self.yvel -= JUMP_EXTRA_POWER # то прыгаем выше
-                self.image.fill(Color(COLOR))
-                self.boltAnimJump.blit(self.image, (0, 0))
-                       
+                    self.yvel -= JUMP_EXTRA_POWER # то прыгаем выше
+
         if left:
-            self.xvel = -MOVE_SPEED # Лево = x- n
-            self.image.fill(Color(COLOR))
+            if self.xvel < 0:
+                self.xvel = -MOVE_SPEED # Лево = x- n
+            else:
+                self.xvel = -STEP_SPEED
             if running: # если усkорение
                 self.xvel-=MOVE_EXTRA_SPEED # то передвигаемся быстрее
-                if not up: # и если не прыгаем
-                    self.boltAnimLeftSuperSpeed.blit(self.image, (0, 0)) # то отображаем быструю анимацию
-            else: # если не бежим
-                if not up: # и не прыгаем
-                    self.boltAnimLeft.blit(self.image, (0, 0)) # отображаем анимацию движения 
-            if up: # если же прыгаем
-                    self.boltAnimJumpLeft.blit(self.image, (0, 0)) # отображаем анимацию прыжка
- 
+
         if right:
-            self.xvel = MOVE_SPEED # Право = x + n
-            self.image.fill(Color(COLOR))
-            if running:
-                self.xvel+=MOVE_EXTRA_SPEED
-                if not up:
-                    self.boltAnimRightSuperSpeed.blit(self.image, (0, 0))
+            if self.xvel > 0:
+                self.xvel = MOVE_SPEED
             else:
-                if not up:
-                    self.boltAnimRight.blit(self.image, (0, 0)) 
-            if up:
-                    self.boltAnimJumpRight.blit(self.image, (0, 0))
- 
+                self.xvel = STEP_SPEED
+            if running: # если усkорение
+                self.xvel+=MOVE_EXTRA_SPEED # то передвигаемся быстрее
+
+        self.image.fill(Color(COLOR))
+        if self.isFly:
+            if self.xvel < 0:
+                self.boltAnimJumpLeft.blit(self.image, (0, 0)) # отображаем анимацию прыжка
+            elif self.xvel > 0:
+                self.boltAnimJumpRight.blit(self.image, (0, 0))
+            else:
+                self.boltAnimJump.blit(self.image, (0, 0))
+        else:
+           if running:
+                if self.xvel < 0:
+                    self.boltAnimLeftSuperSpeed.blit(self.image, (0, 0)) # отображаем анимацию движения
+                elif self.xvel > 0:
+                    self.boltAnimRightSuperSpeed.blit(self.image, (0, 0))
+                else:
+                    self.boltAnimStay.blit(self.image, (0, 0))
+           else:
+                if self.xvel < 0:
+                    self.boltAnimLeft.blit(self.image, (0, 0)) # отображаем анимацию движения
+                elif self.xvel > 0:
+                    self.boltAnimRight.blit(self.image, (0, 0))
+                else:
+                    self.boltAnimStay.blit(self.image, (0, 0))
+
+
          
-        if not(left or right): # стоим, когда нет указаний идти
+        if not(left or right) and not self.isFly: # стоим, когда нет указаний идти
             self.xvel = 0
-            if not up:
-                self.image.fill(Color(COLOR))
-                self.boltAnimStay.blit(self.image, (0, 0))
-            
+
         if not self.onGround:
             self.yvel +=  GRAVITY
-            
+
+        if abs(round(self.yvel)) > 2:
+           # print("В воздухе")
+            self.isFly = True
+        elif self.onGround:
+            # print "Стоит"
+            self.isFly = False
+
         self.onGround = False; # Мы не знаем, когда мы на земле((   
         self.rect.y += self.yvel
         self.collide(0, self.yvel, platforms)
 
         self.rect.x += self.xvel # переносим свои положение на xvel
         self.collide(self.xvel, 0, platforms)
-   
+
+
     def collide(self, xvel, yvel, platforms):
         for p in platforms:
             if sprite.collide_rect(self, p): # если есть пересечение платформы с игроком
@@ -147,9 +167,11 @@ class Player(sprite.Sprite):
                 else:
                     if xvel > 0:                      # если движется вправо
                         self.rect.right = p.rect.left # то не движется вправо
+                        self.xvel = 0
 
                     if xvel < 0:                      # если движется влево
                         self.rect.left = p.rect.right # то не движется влево
+                        self.xvel = 0
 
                     if yvel > 0:                      # если падает вниз
                         self.rect.bottom = p.rect.top # то не падает вниз
@@ -165,5 +187,7 @@ class Player(sprite.Sprite):
         self.rect.y = goY
         
     def die(self):
-        time.wait(500)
+        time.wait(1000)
+        self.xvel = 0
+        self.yvel = 0
         self.teleporting(self.startX, self.startY) # перемещаемся в начальные координаты

@@ -32,6 +32,7 @@ class BlockDie(Platform):
     def __init__(self, x, y):
         Platform.__init__(self, x, y)
         self.image = image.load("%s/blocks/dieBlock.png" % ICON_DIR)
+        self.rect = Rect(x + PLATFORM_WIDTH / 4, y + PLATFORM_HEIGHT / 4, PLATFORM_WIDTH - PLATFORM_WIDTH / 2, PLATFORM_HEIGHT - PLATFORM_HEIGHT / 2)
 
 class BlockTeleport(Platform):
     def __init__(self, x, y, goX,goY):
