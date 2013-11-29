@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.0" orientation="orthogonal" width="30" height="100" tilewidth="32" tileheight="32">
+ <tileset firstgid="1" name="tiles" tilewidth="32" tileheight="32">
+  <image source="tiles.png" width="417" height="288"/>
+ </tileset>
+ <layer name="BackGround" width="30" height="100">
+  <data encoding="base64" compression="zlib">
+   eJzt2k1vAUEAh/Ft1bUotxZXfblpqUtJX1yQll5bfP9P0adhYwi7k90xWfx/yRPS2M5GZtYcJgiSeaEu9WI+d228r1E94XihAQ1pZDHuDVUtx23SY8p7+9egW7qje3pw8D93Me/5iVrUpmfq7HFc0yu90Tt9UN/TuJ/0RWOa0PeWz5ToisrLKsZrWJRtc/yHfmlKM5onvP8otnNcDo/tc9M1zSmR7HK1/zgFeoaKLGgtiIi4pz2ZRNH8yBbthURERI6T9lzpuP7+tOeSfdA6l5CeMdkVtU7LPm/kxMSdXbKltbUuzZw9pN+sY12brtaF7ObjOzbP7vpknt31yTy7e0bnlKMLyltcn+SaTZdUoGKwOjsbLN+XNv4Wd01W/AGEOR3b
+  </data>
+ </layer>
+ <layer name="Platforms" width="30" height="100">
+  <data encoding="base64" compression="zlib">
+   eJztmlsKgzAQRf1rsP/iJrot97+EUoggIY8mziPO3AMDJpZe54ylfngs8hyxkItcK7kbYZ30fNYza6zcOndcWs/KE67REjnftRnMMp8ZruHkrZC5FoorxyvW+7fe32xI+MZM4VkKLw40+tTyypUbCnu5ferMOxmjz3d3+9oFs0a+i8LtKP9majyb/+iZXY0et2Hh/z1ZAZ7kgXN5QnKc+u85D/h5xQJlao7S/dYatME9yQv8ygLfvMAvL63/v5p7zIYXz349967B51KAFrjlwYNX6z1a708TuKWD+11SyvdgKeoLdlUSfw==
+  </data>
+ </layer>
+ <layer name="DieBlocks" width="30" height="100">
+  <data encoding="base64" compression="zlib">
+   eJzt2cENgCAQBEA7ogH7r8s/wQgBxYPZDxqSG9Yf8ThEJGrSJPOPbr5/91x673HfCpfL5XK5XC6Xy+WWvC/d0l1qh+882j0nua3hcrncHdyUrXf7o92ecLlcbus/juh9Z7u1s1bpy+Wu4LbOid6Xy+VyI7o181bqyx3n9p41Wl8u98ndLRenoSRo
+  </data>
+ </layer>
+ <objectgroup name="Monsters" width="30" height="100">
+  <object name="Player" gid="98" x="111" y="3135"/>
+  <object name="Princess" gid="97" x="734" y="223"/>
+ </objectgroup>
+ <objectgroup name="Teleports" width="30" height="100">
+  <object gid="49" x="832" y="1212">
+   <properties>
+    <property name="goX" value="26"/>
+    <property name="goY" value="14"/>
+   </properties>
+  </object>
+ </objectgroup>
+</map>
