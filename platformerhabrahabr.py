@@ -19,7 +19,7 @@ DISPLAY = (WIN_WIDTH, WIN_HEIGHT)
 BACKGROUND_COLOR = "#000000"
 CENTER_OF_SCREEN = WIN_WIDTH / 2, WIN_HEIGHT / 2
 
-FILE_DIR = os.path.dirname(__file__)
+FILE_DIR = os.path.dirname(os.path.realpath(__file__))
 
 
 class Camera(object):
@@ -137,7 +137,7 @@ def main():
 
     renderer = helperspygame.RendererPygame()  # визуализатор
     for lvl in range(1, 4):
-        loadLevel("levels/map_%s" % lvl)
+        loadLevel(os.path.join("levels", "map_%s" % lvl))
         # Заливаем поверхность сплошным цветом
         bg.fill(Color(BACKGROUND_COLOR))
 
